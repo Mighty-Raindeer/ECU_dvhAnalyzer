@@ -11,6 +11,10 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Rectangle = System.Drawing.Rectangle;
+using System.Xml.Linq;
 
 namespace DVHAnalyzer
 {
@@ -57,6 +61,22 @@ namespace DVHAnalyzer
                 if (!structure.IsEmpty && structure.DicomType != "SUPPORT")
                     Column_structure.Items.Add(structure.Id);
             }
+
+            string userid = context.CurrentUser.Id;
+            string date = DateTime.Now.ToString("yyyy-MM-dd");
+
+            label8.Text = userid;
+            label9.Text = date;
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -920,6 +940,58 @@ namespace DVHAnalyzer
             Form4 form4 = new Form4();
             form4.ShowDialog();
         }
+        //private void button_print_Click(object sender, EventArgs e)
+        //{
+        //    // display a SaveFileDialog to allow the user to choose where to save the PDF
+        //    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+        //    saveFileDialog1.Filter = "PDF (*.pdf)|*.pdf";
+        //    saveFileDialog1.Title = "Save PDF";
+        //    if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+        //    {
+        //        return; // exit the method if the user clicked Cancel
+        //    }
+
+        //    // create a new Document object
+        //    Document doc = new Document();
+
+        //    // create a new PdfWriter object
+        //    PdfWriter.GetInstance(doc, new FileStream(saveFileDialog1.FileName, FileMode.Create));
+
+        //    // open the document for writing
+        //    doc.Open();
+
+        //    // add labels and grids to the document
+        //    foreach (Control c in this.Controls)
+        //    {
+        //        if (c is Label)
+        //        {
+        //            doc.Add(new Paragraph(c.Text));
+        //        }
+        //        else if (c is DataGridView)
+        //        {
+        //            PdfPTable table = new PdfPTable(((DataGridView)c).Columns.Count);
+        //            foreach (DataGridViewColumn col in ((DataGridView)c).Columns)
+        //            {
+        //                table.AddCell(col.HeaderText);
+        //            }
+        //            foreach (DataGridViewRow row in ((DataGridView)c).Rows)
+        //            {
+        //                foreach (DataGridViewCell cell in row.Cells)
+        //                {
+        //                    table.AddCell(cell.Value.ToString());
+        //                }
+        //            }
+        //            doc.Add(table);
+        //        }
+        //    }
+
+        //    // close the document
+        //    doc.Close();
+        //}
+
+
+
+
 
         int count;
         int current_row_index;
@@ -931,16 +1003,21 @@ namespace DVHAnalyzer
             printDocument1.DefaultPageSettings.Margins.Bottom = 30;
             printDocument1.DefaultPageSettings.Landscape = false;
             count = dataGridView1.Rows.Count;
+            
             printPreviewDialog1.Document = printDocument1;
             printPreviewDialog1.ShowDialog();
             dataGridView1.ScrollBars = ScrollBars.Vertical;
         }
+
+
+
+
         private int DrawPatientInfo(SplitterPanel panel, PrintPageEventArgs e, int x, int y, int w)
         {
             Size s = panel.Size;
             Bitmap bitmap = new Bitmap(s.Width, s.Height);
             panel.DrawToBitmap(bitmap, new Rectangle(0, 0, s.Width, s.Height));
-            Rectangle srcRect = new Rectangle(0, 30, s.Width, s.Height-30);
+            Rectangle srcRect = new Rectangle(0, 30, s.Width, s.Height - 30);
             int h = (int)((double)e.MarginBounds.Width / s.Width * (s.Height - 30));
             Rectangle destRect = new Rectangle(x, y, w, h);
             e.Graphics.DrawImage(bitmap, destRect, srcRect, GraphicsUnit.Pixel);
@@ -1020,7 +1097,7 @@ namespace DVHAnalyzer
             dataGridView1.ScrollBars = ScrollBars.None;
             if (count == dataGridView1.Rows.Count)
             {
-                y = DrawPatientInfo(splitContainer2.Panel1, e, x, y ,w);
+                y = DrawPatientInfo(splitContainer2.Panel1, e, x, y, w);
                 current_row_index = 0;
                 try
                 {
@@ -1049,6 +1126,23 @@ namespace DVHAnalyzer
                 count = dataGridView1.Rows.Count;
             }
             e.HasMorePages = false;
+            
+            
+            
         }
+
+
+
+        private void printPreviewDialog1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
     }
 }

@@ -118,16 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>キーボードショートカット
+    <value>Thank you for using ECU Health's DVHAnalyzer
+Keyboard shortcuts:
 Ctrl+A : Add Row
 Ctrl+D : Delete Row
 Ctrl+C : Calculate DVH
 
-
-ご質問、ご要望はユーロメディテック医学物理室までお気軽に！
+This analyzer is an adaptation from 
+open source code provided by:
 emt-mediphys@euro-meditec.co.jp
 
 https://github.com/EuroMediTech/dvhAnalyzer
+
+Not for sale or distribution! 
 
 Copyright (c) 2018 EuroMediTech Co. Ltd.
 Released under the MIT license</value>

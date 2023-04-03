@@ -29,7 +29,7 @@
     private void InitializeComponent()
     {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -60,9 +60,9 @@
             this.Column_tol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_mu = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_print = new System.Windows.Forms.Button();
             this.button_close = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_export = new System.Windows.Forms.Button();
             this.button_save = new System.Windows.Forms.Button();
             this.button_open = new System.Windows.Forms.Button();
@@ -71,6 +71,8 @@
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,9 +104,9 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button_print);
             this.splitContainer1.Panel2.Controls.Add(this.button_close);
-            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel2.Controls.Add(this.button_export);
             this.splitContainer1.Panel2.Controls.Add(this.button_save);
             this.splitContainer1.Panel2.Controls.Add(this.button_open);
@@ -132,6 +134,7 @@
             this.splitContainer2.Panel1.Controls.Add(this.button_delete);
             this.splitContainer2.Panel1.Controls.Add(this.button_add);
             this.splitContainer2.Panel1.Controls.Add(this.button_calc);
+            this.splitContainer2.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2_Panel1_Paint);
             // 
             // splitContainer2.Panel2
             // 
@@ -159,8 +162,8 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(66, 24);
-            this.toolStripButton1.Text = "Settings";
+            this.toolStripButton1.Size = new System.Drawing.Size(81, 24);
+            this.toolStripButton1.Text = "Templates";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
@@ -227,6 +230,7 @@
             this.label2.Size = new System.Drawing.Size(76, 21);
             this.label2.TabIndex = 5;
             this.label2.Text = "Patient ID";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button_delete
             // 
@@ -271,6 +275,8 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.label9);
+            this.splitContainer3.Panel2.Controls.Add(this.label8);
             this.splitContainer3.Panel2.Controls.Add(this.label_mu);
             this.splitContainer3.Panel2.Controls.Add(this.label1);
             this.splitContainer3.Size = new System.Drawing.Size(953, 540);
@@ -368,8 +374,8 @@
             // 
             // Column_result
             // 
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Column_result.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Column_result.DefaultCellStyle = dataGridViewCellStyle4;
             this.Column_result.FillWeight = 97.63348F;
             this.Column_result.HeaderText = "Result";
             this.Column_result.Name = "Column_result";
@@ -436,6 +442,16 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Total MU";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DVHAnalyzer.Properties.Resources.ECU_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(340, 77);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
             // button_print
             // 
             this.button_print.Location = new System.Drawing.Point(530, 42);
@@ -455,16 +471,6 @@
             this.button_close.Text = "Close";
             this.button_close.UseVisualStyleBackColor = true;
             this.button_close.Click += new System.EventHandler(this.button_close_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::DVHAnalyzer.Properties.Resources.EMTlogo;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 38);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(268, 42);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
             // 
             // button_export
             // 
@@ -509,6 +515,28 @@
             this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
+            this.printPreviewDialog1.Load += new System.EventHandler(this.printPreviewDialog1_Load);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label8.Location = new System.Drawing.Point(12, 14);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(46, 21);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "User ";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.label9.Location = new System.Drawing.Point(327, 14);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(105, 21);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "Creation Date";
             // 
             // Form1
             // 
@@ -569,7 +597,6 @@
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.PictureBox pictureBox1;
     private System.Windows.Forms.ToolStrip toolStrip1;
     private System.Windows.Forms.ToolStripButton toolStripButton1;
     private System.Windows.Forms.ToolStripButton toolStripButton2;
@@ -588,5 +615,8 @@
         private System.Windows.Forms.Button button_print;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }
