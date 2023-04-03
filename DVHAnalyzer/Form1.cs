@@ -50,10 +50,15 @@ namespace DVHAnalyzer
             if (!isPlanSum)
             {
                 label7.Text = planSetup.Id;
+                string plandate = context.PlanSetup.PlanningApprovalDate.ToString();
+                label11.Text = plandate;
             }
             else
             {
                 label7.Text = psumName;
+                string plandate = planSetup.CreationDateTime.ToString();
+                label11.Text = plandate;
+
             }
 
             foreach (Structure structure in ss.Structures)
@@ -63,10 +68,10 @@ namespace DVHAnalyzer
             }
 
             string userid = context.CurrentUser.Id;
-            string date = DateTime.Now.ToString("yyyy-MM-dd");
+            string date = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss");
 
-            label8.Text = userid;
-            label9.Text = date;
+            label10.Text = userid;
+            label13.Text = date;
 
         }
 
