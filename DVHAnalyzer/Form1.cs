@@ -233,13 +233,13 @@ namespace DVHAnalyzer
                         }
                         catch (FormatException)
                         {
-                            MessageBox.Show("数値を入力してください");
+                            MessageBox.Show("Please enter a valid number, if D of 0cc or 0% use Dmax");
                             dataGridView1[e.ColumnIndex, e.RowIndex].Value = "";
                         }
 
                         if (dvvalue <= 0)
                         {
-                            MessageBox.Show("正の数を入力してください");
+                            MessageBox.Show("Number values cannot be negative");
                             dataGridView1[e.ColumnIndex, e.RowIndex].Value = "";
                         }
 
@@ -1143,6 +1143,9 @@ namespace DVHAnalyzer
 
         }
 
+        private void saveFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
 
+        }
     }
 }

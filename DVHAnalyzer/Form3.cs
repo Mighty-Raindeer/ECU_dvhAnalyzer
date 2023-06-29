@@ -86,7 +86,7 @@ namespace DVHAnalyzer
         sw.WriteLine(String.Format("Export {0}", textBox2.Text));
       }
 
-      MessageBox.Show("設定を保存しました。");
+      MessageBox.Show("You have saved your settings.");
     }
 
     private void button4_Click(object sender, EventArgs e)

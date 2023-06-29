@@ -75,8 +75,6 @@ namespace VMS.TPS
               }
             }
           }
-          // v13以降は foreach(var course ~)の代わりにこれでいける
-          // psumName = psum.Course.Id + '/' + psum.Id;
         }
       }
 

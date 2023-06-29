@@ -130,6 +130,13 @@ emt-mediphys@euro-meditec.co.jp
 
 https://github.com/EuroMediTech/dvhAnalyzer
 
+Analitics follow TG263
+
+Vx: volume of sub volume receiving ≥ dose x
+Dx: minimum dose received by the hottest sub volume x
+CVx: volume of sub volume receiving ≤ dose x
+DCx: maximum dose received by the coolest sub volume x
+
 Not for sale or distribution! 
 
 Copyright (c) 2018 EuroMediTech Co. Ltd.
