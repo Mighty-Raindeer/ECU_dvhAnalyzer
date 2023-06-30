@@ -134,7 +134,7 @@
             this.splitContainer2.Panel1.Controls.Add(this.button_delete);
             this.splitContainer2.Panel1.Controls.Add(this.button_add);
             this.splitContainer2.Panel1.Controls.Add(this.button_calc);
-            this.splitContainer2.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer2_Panel1_Paint);
+            this.splitContainer2.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.SplitContainer2_Panel1_Paint);
             // 
             // splitContainer2.Panel2
             // 
@@ -164,7 +164,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(81, 24);
             this.toolStripButton1.Text = "Templates";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
             // 
             // toolStripButton2
             // 
@@ -175,7 +175,7 @@
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(45, 24);
             this.toolStripButton2.Text = "Help";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2_Click);
             // 
             // label7
             // 
@@ -230,7 +230,7 @@
             this.label2.Size = new System.Drawing.Size(76, 21);
             this.label2.TabIndex = 5;
             this.label2.Text = "Patient ID";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label2.Click += new System.EventHandler(this.Label2_Click);
             // 
             // button_delete
             // 
@@ -240,7 +240,7 @@
             this.button_delete.TabIndex = 4;
             this.button_delete.Text = "Delete Row";
             this.button_delete.UseVisualStyleBackColor = true;
-            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            this.button_delete.Click += new System.EventHandler(this.Button_delete_Click);
             // 
             // button_add
             // 
@@ -250,7 +250,7 @@
             this.button_add.TabIndex = 3;
             this.button_add.Text = "Add Row";
             this.button_add.UseVisualStyleBackColor = true;
-            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            this.button_add.Click += new System.EventHandler(this.Button_add_Click);
             // 
             // button_calc
             // 
@@ -260,7 +260,7 @@
             this.button_calc.TabIndex = 2;
             this.button_calc.Text = "Calculate DVH";
             this.button_calc.UseVisualStyleBackColor = true;
-            this.button_calc.Click += new System.EventHandler(this.button_calc_Click);
+            this.button_calc.Click += new System.EventHandler(this.Button_calc_Click);
             // 
             // splitContainer3
             // 
@@ -312,8 +312,8 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(953, 487);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellClick);
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellValueChanged);
             // 
             // Column_structure
             // 
@@ -442,7 +442,7 @@
             this.label8.Size = new System.Drawing.Size(46, 21);
             this.label8.TabIndex = 12;
             this.label8.Text = "User ";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // label_mu
             // 
@@ -481,7 +481,7 @@
             this.button_print.TabIndex = 5;
             this.button_print.Text = "Print";
             this.button_print.UseVisualStyleBackColor = true;
-            this.button_print.Click += new System.EventHandler(this.button_print_Click);
+            this.button_print.Click += new System.EventHandler(this.Button_print_Click);
             // 
             // button_close
             // 
@@ -491,7 +491,7 @@
             this.button_close.TabIndex = 3;
             this.button_close.Text = "Close";
             this.button_close.UseVisualStyleBackColor = true;
-            this.button_close.Click += new System.EventHandler(this.button_close_Click);
+            this.button_close.Click += new System.EventHandler(this.Button_close_Click);
             // 
             // button_export
             // 
@@ -501,7 +501,7 @@
             this.button_export.TabIndex = 2;
             this.button_export.Text = "Export";
             this.button_export.UseVisualStyleBackColor = true;
-            this.button_export.Click += new System.EventHandler(this.button_export_Click);
+            this.button_export.Click += new System.EventHandler(this.Button_export_Click);
             // 
             // button_save
             // 
@@ -511,7 +511,7 @@
             this.button_save.TabIndex = 1;
             this.button_save.Text = "Save as Template";
             this.button_save.UseVisualStyleBackColor = true;
-            this.button_save.Click += new System.EventHandler(this.button_save_Click);
+            this.button_save.Click += new System.EventHandler(this.Button_save_Click);
             // 
             // button_open
             // 
@@ -521,15 +521,15 @@
             this.button_open.TabIndex = 0;
             this.button_open.Text = "Open Template";
             this.button_open.UseVisualStyleBackColor = true;
-            this.button_open.Click += new System.EventHandler(this.button_open_Click);
+            this.button_open.Click += new System.EventHandler(this.Button_open_Click);
             // 
             // saveFileDialog2
             // 
-            this.saveFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog2_FileOk);
+            this.saveFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveFileDialog2_FileOk);
             // 
             // printDocument1
             // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument1_PrintPage);
             // 
             // printPreviewDialog1
             // 
@@ -540,7 +540,7 @@
             this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
-            this.printPreviewDialog1.Load += new System.EventHandler(this.printPreviewDialog1_Load);
+            this.printPreviewDialog1.Load += new System.EventHandler(this.PrintPreviewDialog1_Load);
             // 
             // Form1
             // 

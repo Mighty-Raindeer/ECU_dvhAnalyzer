@@ -20,49 +20,49 @@ namespace DVHAnalyzer
 {
     public partial class Form1 : Form
     {
-        ScriptContext context { get; set; }
-        PlanningItem planSetup { get; set; }
-        StructureSet ss { get; set; }
-        bool isPlanSum;
+        ScriptContext Context { get; set; }
+        PlanningItem PlanSetup { get; set; }
+        StructureSet Ss { get; set; }
 
-        string setting = String.Format(@"{0}\EMT\settings.ini", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+        readonly bool isPlanSum;
+        readonly string setting = String.Format(@"{0}\EMT\settings.ini", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
         public Form1(ScriptContext _context, bool _isPlanSum = false, string psumName = "")
         {
             InitializeComponent();
-            context = _context;
+            Context = _context;
             isPlanSum = _isPlanSum;
             if (!isPlanSum)
             {
-                planSetup = context.PlanSetup;
-                ss = ((PlanSetup)planSetup).StructureSet;
+                PlanSetup = Context.PlanSetup;
+                Ss = ((PlanSetup)PlanSetup).StructureSet;
             }
             else
             {
                 var courseId = psumName.Split('/')[0];
                 var psumId = psumName.Split('/')[1];
-                var course = context.Patient.Courses.First(c => c.Id == courseId);
-                planSetup = course.PlanSums.First(psum => psum.Id == psumId);
-                ss = ((PlanSum)planSetup).StructureSet;
+                var course = Context.Patient.Courses.First(c => c.Id == courseId);
+                PlanSetup = course.PlanSums.First(psum => psum.Id == psumId);
+                Ss = ((PlanSum)PlanSetup).StructureSet;
             }
 
-            label5.Text = context.Patient.Id;
-            label6.Text = String.Format("{0} {1}", context.Patient.LastName, context.Patient.FirstName);
+            label5.Text = Context.Patient.Id;
+            label6.Text = String.Format("{0} {1}", Context.Patient.LastName, Context.Patient.FirstName);
             if (!isPlanSum)
             {
-                label7.Text = planSetup.Id;
+                label7.Text = PlanSetup.Id;
             }
             else
             {
                 label7.Text = psumName;
             }
 
-            foreach (Structure structure in ss.Structures)
+            foreach (Structure structure in Ss.Structures)
             {
                 if (!structure.IsEmpty && structure.DicomType != "SUPPORT")
                     Column_structure.Items.Add(structure.Id);
             }
 
-            string userid = context.CurrentUser.Id;
+            string userid = Context.CurrentUser.Id;
             string date = DateTime.Now.ToString("yyyy-MM-dd");
 
             label8.Text = userid;
@@ -70,17 +70,17 @@ namespace DVHAnalyzer
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void Label2_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void button_add_Click(object sender, EventArgs e)
+        private void Button_add_Click(object sender, EventArgs e)
         {
             if (dataGridView1.RowCount == 0)
             {
@@ -94,7 +94,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_delete_Click(object sender, EventArgs e)
+        private void Button_delete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.RowCount > 0)
             {
@@ -102,7 +102,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1) return;
 
@@ -127,7 +127,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.RowCount > 0)
             {
@@ -264,7 +264,7 @@ namespace DVHAnalyzer
                 int MU = 0;
                 if (!isPlanSum)
                 {
-                    var beams = ((PlanSetup)planSetup).Beams;
+                    var beams = ((PlanSetup)PlanSetup).Beams;
                     foreach (var beam in beams)
                     {
                         if (!beam.IsSetupField)
@@ -274,7 +274,7 @@ namespace DVHAnalyzer
                 }
                 else
                 {
-                    foreach (var plan in ((PlanSum)planSetup).PlanSetups)
+                    foreach (var plan in ((PlanSum)PlanSetup).PlanSetups)
                     {
                         foreach (var beam in plan.Beams)
                         {
@@ -313,7 +313,7 @@ namespace DVHAnalyzer
             else
             {
                 DoseValuePresentation doseAbs = DoseValuePresentation.Absolute;
-                foreach (Structure s in ss.Structures)
+                foreach (Structure s in Ss.Structures)
                 {
 
                     if (s.Id == struct_name)
@@ -322,7 +322,7 @@ namespace DVHAnalyzer
 
                         if (!isUnitDetermined)
                         {
-                            DoseValue doseValue = planSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MaxDose;
+                            DoseValue doseValue = PlanSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MaxDose;
                             doseUnit = doseValue.UnitAsString;
                             isUnitDetermined = true;
                         }
@@ -332,12 +332,12 @@ namespace DVHAnalyzer
                             DoseValue doseValue;
                             if (unit == "Gy")
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MaxDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MaxDose;
                                 value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                             }
                             else
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MaxDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MaxDose;
                                 value = doseValue.Dose.ToString("F2");
                             }
                         }
@@ -346,12 +346,12 @@ namespace DVHAnalyzer
                             DoseValue doseValue;
                             if (unit == "Gy")
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MeanDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MeanDose;
                                 value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                             }
                             else
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MeanDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MeanDose;
                                 value = doseValue.Dose.ToString("F2");
                             }
                         }
@@ -360,12 +360,12 @@ namespace DVHAnalyzer
                             DoseValue doseValue;
                             if (unit == "Gy")
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MinDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, doseAbs, 0, 0.1).MinDose;
                                 value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                             }
                             else
                             {
-                                doseValue = planSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MinDose;
+                                doseValue = PlanSetup.GetDVHCumulativeData(s, 0, 0, 0.1).MinDose;
                                 value = doseValue.Dose.ToString("F2");
                             }
                         }
@@ -384,12 +384,12 @@ namespace DVHAnalyzer
                                     {
                                         if (dv == "D")
                                         {
-                                            DoseValue doseValue = planSetup.GetDoseAtVolume(s, dx, 0, doseAbs);
+                                            DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, dx, 0, doseAbs);
                                             value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                                         }
                                         else if (dv == "DC")
                                         {
-                                            DoseValue doseValue = planSetup.GetDoseAtVolume(s, 100 - dx, 0, doseAbs);
+                                            DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, 100 - dx, 0, doseAbs);
                                             value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                                         }
                                     }
@@ -397,12 +397,12 @@ namespace DVHAnalyzer
                                     {
                                         if (dv == "D")
                                         {
-                                            DoseValue doseValue = planSetup.GetDoseAtVolume(s, dx, 0, 0);
+                                            DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, dx, 0, 0);
                                             value = doseValue.Dose.ToString("F2");
                                         }
                                         else if (dv == "DC")
                                         {
-                                            DoseValue doseValue = planSetup.GetDoseAtVolume(s, 100 - dx, 0, 0);
+                                            DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, 100 - dx, 0, 0);
                                             value = doseValue.Dose.ToString("F2");
                                         }
                                     }
@@ -418,12 +418,12 @@ namespace DVHAnalyzer
                                 {
                                     if (dv == "D")
                                     {
-                                        DoseValue doseValue = planSetup.GetDoseAtVolume(s, dx, VolumePresentation.AbsoluteCm3, doseAbs);
+                                        DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, dx, VolumePresentation.AbsoluteCm3, doseAbs);
                                         value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                                     }
                                     else if (dv == "DC")
                                     {
-                                        DoseValue doseValue = planSetup.GetDoseAtVolume(s, volume - dx, VolumePresentation.AbsoluteCm3, doseAbs);
+                                        DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, volume - dx, VolumePresentation.AbsoluteCm3, doseAbs);
                                         value = doseUnit == "cGy" ? (doseValue.Dose / 100.0).ToString("F2") : doseValue.Dose.ToString("F2");
                                     }
                                 }
@@ -431,12 +431,12 @@ namespace DVHAnalyzer
                                 {
                                     if (dv == "D")
                                     {
-                                        DoseValue doseValue = planSetup.GetDoseAtVolume(s, dx, VolumePresentation.AbsoluteCm3, 0);
+                                        DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, dx, VolumePresentation.AbsoluteCm3, 0);
                                         value = doseValue.Dose.ToString("F2");
                                     }
                                     else if (dv == "DC")
                                     {
-                                        DoseValue doseValue = planSetup.GetDoseAtVolume(s, volume - dx, VolumePresentation.AbsoluteCm3, 0);
+                                        DoseValue doseValue = PlanSetup.GetDoseAtVolume(s, volume - dx, VolumePresentation.AbsoluteCm3, 0);
                                         value = doseValue.Dose.ToString("F2");
                                     }
                                 }
@@ -454,7 +454,7 @@ namespace DVHAnalyzer
                                 if (unit == "cc")
                                 {
                                     DoseValue dose = new DoseValue(vx, DoseValue.DoseUnit.Percent);
-                                    double doseValue = planSetup.GetVolumeAtDose(s, dose, VolumePresentation.AbsoluteCm3);
+                                    double doseValue = PlanSetup.GetVolumeAtDose(s, dose, VolumePresentation.AbsoluteCm3);
                                     if (dv == "V")
                                     {
                                         value = doseValue.ToString("F2");
@@ -467,7 +467,7 @@ namespace DVHAnalyzer
                                 else
                                 {
                                     DoseValue dose = new DoseValue(vx, DoseValue.DoseUnit.Percent);
-                                    double doseValue = planSetup.GetVolumeAtDose(s, dose, VolumePresentation.Relative);
+                                    double doseValue = PlanSetup.GetVolumeAtDose(s, dose, VolumePresentation.Relative);
                                     if (dv == "V")
                                     {
                                         value = doseValue.ToString("F2");
@@ -483,7 +483,7 @@ namespace DVHAnalyzer
                                 if (unit == "cc")
                                 {
                                     DoseValue dose = doseUnit == "cGy" ? new DoseValue(vx * 100, DoseValue.DoseUnit.cGy) : new DoseValue(vx, DoseValue.DoseUnit.Gy);
-                                    double doseValue = planSetup.GetVolumeAtDose(s, dose, VolumePresentation.AbsoluteCm3);
+                                    double doseValue = PlanSetup.GetVolumeAtDose(s, dose, VolumePresentation.AbsoluteCm3);
                                     if (dv == "V")
                                     {
                                         value = doseValue.ToString("F2");
@@ -496,7 +496,7 @@ namespace DVHAnalyzer
                                 else
                                 {
                                     DoseValue dose = doseUnit == "cGy" ? new DoseValue(vx * 100, DoseValue.DoseUnit.cGy) : new DoseValue(vx, DoseValue.DoseUnit.Gy);
-                                    double doseValue = planSetup.GetVolumeAtDose(s, dose, VolumePresentation.Relative);
+                                    double doseValue = PlanSetup.GetVolumeAtDose(s, dose, VolumePresentation.Relative);
                                     if (dv == "V")
                                     {
                                         value = doseValue.ToString("F2");
@@ -596,8 +596,10 @@ namespace DVHAnalyzer
         private void OpenTemplate(String filename)
         {
             dataGridView1.Rows.Clear();
-            TextFieldParser parser = new TextFieldParser(filename);
-            parser.TextFieldType = FieldType.Delimited;
+            TextFieldParser parser = new TextFieldParser(filename)
+            {
+                TextFieldType = FieldType.Delimited
+            };
             parser.SetDelimiters(",");
 
             List<String> strList = new List<String>();
@@ -610,19 +612,20 @@ namespace DVHAnalyzer
 
             parser.Close();
 
-            List<List<String>> returnedList = Form2.ShowMiniForm(strList, ss);
+            List<List<String>> returnedList = Form2.ShowMiniForm(strList, Ss);
 
-            TextFieldParser parser2 = new TextFieldParser(filename);
-            parser2.TextFieldType = FieldType.Delimited;
+            TextFieldParser parser2 = new TextFieldParser(filename)
+            {
+                TextFieldType = FieldType.Delimited
+            };
             parser2.SetDelimiters(",");
-
-            List<String> strList2 = new List<String>();
+            _ = new List<String>();
             int i = 0;
-            int j = 0;
             while (!parser2.EndOfData)
             {
                 string[] row = parser2.ReadFields();
 
+                int j;
                 for (j = 0; j < returnedList.Count(); j++)
                 {
                     row[0] = row[0] == returnedList[j][0] ? returnedList[j][1] : row[0];
@@ -742,21 +745,22 @@ namespace DVHAnalyzer
 
                 if (rowCount > 0)
                 {
-                    string head_id = String.Format("PID,{0}", context.Patient.Id);
-                    string head_name = String.Format("Name,{0} {1}", context.Patient.LastName, context.Patient.FirstName);
+                    string head_id = String.Format("PID,{0}", Context.Patient.Id);
+                    string head_name = String.Format("Name,{0} {1}", Context.Patient.LastName, Context.Patient.FirstName);
 
                     writer.WriteLine(head_id);
                     writer.WriteLine(head_name);
 
-                    List<String> header = new List<String>();
-
-                    header.Add("Structure");
-                    header.Add("Parameter");
-                    header.Add("DVH Value");
-                    header.Add("DVH Unit");
-                    header.Add("Judge");
-                    header.Add("Criteria");
-                    header.Add("Tolerance");
+                    List<String> header = new List<String>
+                    {
+                        "Structure",
+                        "Parameter",
+                        "DVH Value",
+                        "DVH Unit",
+                        "Judge",
+                        "Criteria",
+                        "Tolerance"
+                    };
 
                     String[] headerArray = header.ToArray();
                     String headerCsvData = String.Join(",", headerArray);
@@ -790,11 +794,13 @@ namespace DVHAnalyzer
 
                     if (label_mu.Text != "")
                     {
-                        List<String> strList = new List<String>();
-                        strList.Add("Total MU");
-                        strList.Add("");
-                        strList.Add(label_mu.Text);
-                        strList.Add("");
+                        List<String> strList = new List<String>
+                        {
+                            "Total MU",
+                            "",
+                            label_mu.Text,
+                            ""
+                        };
                         String[] strArray = strList.ToArray();
 
                         String strCSvData = String.Join(",", strArray);
@@ -809,7 +815,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_calc_Click(object sender, EventArgs e)
+        private void Button_calc_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow r in dataGridView1.Rows)
             {
@@ -817,7 +823,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_open_Click(object sender, EventArgs e)
+        private void Button_open_Click(object sender, EventArgs e)
         {
             if (File.Exists(setting))
             {
@@ -844,7 +850,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_save_Click(object sender, EventArgs e)
+        private void Button_save_Click(object sender, EventArgs e)
         {
             if (File.Exists(setting))
             {
@@ -871,7 +877,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_export_Click(object sender, EventArgs e)
+        private void Button_export_Click(object sender, EventArgs e)
         {
             if (File.Exists(setting))
             {
@@ -892,12 +898,12 @@ namespace DVHAnalyzer
             }
             // saveFileDialog2.InitialDirectory = @"C:\";
             saveFileDialog2.Filter = "CSV file|*.csv";
-            String pname = context.Patient.LastName;
-            if (context.Patient.FirstName != "")
+            String pname = Context.Patient.LastName;
+            if (Context.Patient.FirstName != "")
             {
-                pname = pname + "_" + context.Patient.FirstName;
+                pname = pname + "_" + Context.Patient.FirstName;
             }
-            String file = context.Patient.Id + "_" + pname + "_" + planSetup.Id; // + DateTime.Now.ToString("yyyyMMddHHmm");
+            String file = Context.Patient.Id + "_" + pname + "_" + PlanSetup.Id; // + DateTime.Now.ToString("yyyyMMddHHmm");
             saveFileDialog2.FileName = file;
             if (saveFileDialog2.ShowDialog() == DialogResult.OK)
             {
@@ -905,7 +911,7 @@ namespace DVHAnalyzer
             }
         }
 
-        private void button_close_Click(object sender, EventArgs e)
+        private void Button_close_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -929,13 +935,13 @@ namespace DVHAnalyzer
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1_Click(object sender, EventArgs e)
         {
             Form3 form3 = new Form3();
             form3.ShowDialog();
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void ToolStripButton2_Click(object sender, EventArgs e)
         {
             Form4 form4 = new Form4();
             form4.ShowDialog();
@@ -995,7 +1001,7 @@ namespace DVHAnalyzer
 
         int count;
         int current_row_index;
-        private void button_print_Click(object sender, EventArgs e)
+        private void Button_print_Click(object sender, EventArgs e)
         {
             printDocument1.DefaultPageSettings.Margins.Left = 30;
             printDocument1.DefaultPageSettings.Margins.Right = 30;
@@ -1089,7 +1095,7 @@ namespace DVHAnalyzer
             y += h;
             return y;
         }
-        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument1_PrintPage(object sender, PrintPageEventArgs e)
         {
             int x = e.MarginBounds.X;
             int y = e.MarginBounds.Y;
@@ -1133,17 +1139,17 @@ namespace DVHAnalyzer
 
 
 
-        private void printPreviewDialog1_Load(object sender, EventArgs e)
+        private void PrintPreviewDialog1_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
+        private void SplitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void saveFileDialog2_FileOk(object sender, CancelEventArgs e)
+        private void SaveFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
 
         }
